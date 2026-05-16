@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { 
   Megaphone, 
-  ArrowUpRight, 
   Calendar, 
   IndianRupee,
   CheckCircle2,
   Clock,
   XCircle,
   Star,
-  Filter,
   Sparkles,
   Package
 } from 'lucide-react';

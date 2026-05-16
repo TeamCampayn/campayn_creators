@@ -40,7 +40,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ to, icon, label }) => (
 );
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { signOut, user } = useAuth();
+  const { signOut } = useAuth();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 

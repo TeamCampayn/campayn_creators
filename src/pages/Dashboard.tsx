@@ -9,13 +9,11 @@ import {
   Zap,
   Copy,
   Check,
-  ExternalLink,
   IndianRupee,
   Eye,
   ImageIcon,
   Film,
   Layers,
-  MessageCircle,
   RefreshCw
 } from 'lucide-react';
 import { 

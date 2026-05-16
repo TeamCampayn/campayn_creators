@@ -6,7 +6,6 @@ import {
   ArrowUpRight, 
   IndianRupee,
   Clock,
-  CheckCircle2,
   Zap,
   Copy,
   Check,
@@ -14,7 +13,6 @@ import {
   ImageIcon,
   Eye,
   Layers,
-  Download
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
