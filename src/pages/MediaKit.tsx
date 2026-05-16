@@ -280,11 +280,11 @@ const MediaKit: React.FC = () => {
             <div className="relative z-10 w-full pt-8 border-t border-white/5 grid grid-cols-2 gap-4">
               <div className="text-left">
                 <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Reliability</p>
-                <p className="text-lg font-bold">{campaynScore.factors.reliability}%</p>
+                <p className="text-lg font-bold">{campaynScore.breakdown?.reliability || 60}%</p>
               </div>
               <div className="text-right">
                 <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Consistency</p>
-                <p className="text-lg font-bold">{campaynScore.factors.consistency}%</p>
+                <p className="text-lg font-bold">{campaynScore.breakdown?.consistency || 75}%</p>
               </div>
             </div>
           </div>
