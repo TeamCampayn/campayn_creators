@@ -260,7 +260,20 @@ const MediaKit: React.FC = () => {
               {style.label}
             </div>
 
-            <p className="relative z-10 text-slate-400 text-sm leading-relaxed mb-8">
+            <div className="relative z-10 w-full mb-6 space-y-2">
+              <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between">
+                <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Global Percentile</span>
+                <span className="text-xs font-black text-violet-400">Top {100 - (campaynScore.percentile?.global || 50)}%</span>
+              </div>
+              {campaynScore.percentile?.city && (
+                <div className="px-4 py-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-between">
+                  <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">{campaynScore.percentile.cityLabel} Rank</span>
+                  <span className="text-xs font-black text-emerald-400">Top {100 - campaynScore.percentile.city}%</span>
+                </div>
+              )}
+            </div>
+
+            <p className="relative z-10 text-slate-500 text-[10px] leading-relaxed mb-8 uppercase tracking-widest font-bold opacity-60">
               Calculated via real-time engagement, growth velocity, and campaign reliability.
             </p>
 
