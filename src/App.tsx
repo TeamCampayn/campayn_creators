@@ -8,6 +8,7 @@ import Earnings from './pages/Earnings';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import MediaKit from './pages/MediaKit';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth();
@@ -64,6 +65,9 @@ const App: React.FC = () => {
               </MainLayout>
             </ProtectedRoute>
           } />
+          
+          {/* Public Routes */}
+          <Route path="/media-kit/:igHandle" element={<MediaKit />} />
           
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
