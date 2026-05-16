@@ -36,6 +36,7 @@ interface DashboardData {
   rateCard: { rates: any; tier: string };
   campaigns: any[];
   opportunities: any[];
+  followerHistory: any[];
   wallet: { balance: number };
 }
 
@@ -123,15 +124,17 @@ const Dashboard: React.FC = () => {
   const circumference = 2 * Math.PI * 54;
   const dashOffset = circumference - ((score?.total || 0) / 100) * circumference;
 
-  const followerData = [
-    { name: 'Mon', followers: Math.max(0, (ig?.followersCount || 0) - 30) },
-    { name: 'Tue', followers: Math.max(0, (ig?.followersCount || 0) - 22) },
-    { name: 'Wed', followers: Math.max(0, (ig?.followersCount || 0) - 18) },
-    { name: 'Thu', followers: Math.max(0, (ig?.followersCount || 0) - 12) },
-    { name: 'Fri', followers: Math.max(0, (ig?.followersCount || 0) - 6) },
-    { name: 'Sat', followers: Math.max(0, (ig?.followersCount || 0) - 2) },
-    { name: 'Sun', followers: ig?.followersCount || 0 },
-  ];
+  const followerData = (dashData?.followerHistory && dashData.followerHistory.length > 1) 
+    ? dashData.followerHistory 
+    : [
+        { name: 'Mon', followers: ig?.followersCount || 0 },
+        { name: 'Tue', followers: ig?.followersCount || 0 },
+        { name: 'Wed', followers: ig?.followersCount || 0 },
+        { name: 'Thu', followers: ig?.followersCount || 0 },
+        { name: 'Fri', followers: ig?.followersCount || 0 },
+        { name: 'Sat', followers: ig?.followersCount || 0 },
+        { name: 'Sun', followers: ig?.followersCount || 0 },
+      ];
 
   
 
@@ -171,7 +174,7 @@ const Dashboard: React.FC = () => {
         <StatCard 
           label="Total Followers" 
           value={formatNumber(ig?.followersCount || 0)}
-          change="+12% this month" 
+          change={ig?.growthRate || "0% growth"} 
           icon={<Users className="text-violet-400" />} 
           color="bg-violet-400"
           live={connected}
