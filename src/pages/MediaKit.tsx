@@ -32,7 +32,7 @@ const MediaKit: React.FC = () => {
     const fetchMediaKit = async () => {
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://campayn-backend.onrender.com';
-        const res = await fetch(`${backendUrl}/api/auth/creator/media-kit/${igHandle}`);
+        const res = await fetch(`${backendUrl}/api/creator/media-kit/${igHandle}`);
         const result = await res.json();
         
         if (result.success) {
