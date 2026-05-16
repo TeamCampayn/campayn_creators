@@ -74,11 +74,13 @@ const Dashboard: React.FC = () => {
       'instagram_manage_insights',
       'pages_show_list',
       'pages_read_engagement',
+      'pages_manage_metadata',
       'public_profile'
     ].join(',');
 
     // We pass the user.id as 'state' so the backend knows which creator to update
-    const authUrl = `https://www.facebook.com/v19.0/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&state=${user.id}`;
+    // auth_type=rerequest forces Facebook to re-show page selection even if previously authorized
+    const authUrl = `https://www.facebook.com/v19.0/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&state=${user.id}&auth_type=rerequest`;
     
     window.location.href = authUrl;
   };
