@@ -8,9 +8,11 @@ import {
   Settings, 
   LogOut,
   Menu,
-  X
+  X,
+  Search
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import NotificationBell from '../NotificationBell';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -104,9 +106,40 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 p-6 lg:p-10 pt-24 lg:pt-10 overflow-y-auto">
-        <div className="max-w-7xl mx-auto space-y-8">
-          {children}
+      <main className="flex-1 overflow-y-auto">
+        {/* Top Header */}
+        <header className="h-20 border-b border-white/5 px-8 flex items-center justify-between bg-campayn-dark/50 backdrop-blur-xl sticky top-0 z-30">
+          <div className="flex-1 max-w-xl">
+            <div className="relative group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-campayn-primary transition-colors" size={18} />
+              <input 
+                type="text" 
+                placeholder="Search campaigns, brands..." 
+                className="w-full bg-white/5 border border-white/5 rounded-xl py-2.5 pl-12 pr-4 text-sm focus:outline-none focus:border-campayn-primary/50 transition-all"
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <NotificationBell />
+            <div className="h-8 w-[1px] bg-white/10 mx-2" />
+            <div className="flex items-center gap-3">
+              <div className="text-right hidden sm:block">
+                <p className="text-xs font-bold text-white leading-none">Creator Dashboard</p>
+                <p className="text-[10px] text-slate-500 font-medium">Standard Account</p>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-campayn-primary to-violet-600 p-[1px]">
+                <div className="w-full h-full rounded-xl bg-campayn-dark flex items-center justify-center overflow-hidden">
+                  <UserCircle size={24} className="text-slate-400" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="p-6 lg:p-10">
+          <div className="max-w-7xl mx-auto space-y-8">
+            {children}
+          </div>
         </div>
       </main>
     </div>
