@@ -67,6 +67,7 @@ const Campaigns: React.FC = () => {
       case 'delivered': return <CheckCircle2 size={16} className="text-emerald-400" />;
       case 'approved': case 'contracted': return <Star size={16} className="text-blue-400" />;
       case 'rejected': return <XCircle size={16} className="text-red-400" />;
+      case 'invited': return <Megaphone size={16} className="text-violet-400 animate-pulse" />;
       default: return <Clock size={16} className="text-amber-400" />;
     }
   };
@@ -79,8 +80,37 @@ const Campaigns: React.FC = () => {
       delivered: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
       rejected: 'bg-red-500/10 text-red-400 border-red-500/20',
       recommended: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+      invited: 'bg-violet-500/10 text-violet-400 border-violet-500/20 shadow-[0_0_15px_rgba(139,92,246,0.1)]',
     };
     return map[status] || 'bg-white/5 text-slate-400 border-white/10';
+  };
+
+  const handleInvitationResponse = async (campaignId: string, response: 'approved' | 'rejected') => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://campayn-backend.onrender.com';
+      const res = await fetch(`${backendUrl}/api/campaigns/invitation-response`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          campaignId,
+          creatorId: user.id, // Assuming user.id is the creator_id or used to find it
+          response
+        })
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        // Optimistically update UI
+        setMyCampaigns(prev => prev.map(c => 
+          c.id === campaignId ? { ...c, status: response === 'approved' ? 'approved' : 'rejected' } : c
+        ));
+      }
+    } catch (err) {
+      console.error('Response error:', err);
+    }
   };
 
   if (loading) {
@@ -171,12 +201,35 @@ const Campaigns: React.FC = () => {
                   </div>
                 </div>
                 {/* Progress */}
-                <div className="mt-4 h-2 bg-white/5 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-campayn-primary to-violet-400 rounded-full transition-all duration-500"
-                    style={{ width: `${((camp.completed || 0) / (camp.deliverables || 1)) * 100}%` }}
-                  />
-                </div>
+                {camp.status !== 'invited' ? (
+                  <div className="mt-4 h-2 bg-white/5 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-campayn-primary to-violet-400 rounded-full transition-all duration-500"
+                      style={{ width: `${((camp.completed || 0) / (camp.deliverables || 1)) * 100}%` }}
+                    />
+                  </div>
+                ) : (
+                  <div className="mt-6 flex items-center justify-between p-4 bg-violet-500/5 rounded-2xl border border-violet-500/10">
+                    <div className="flex items-center gap-3">
+                      <Sparkles className="text-violet-400" size={18} />
+                      <p className="text-sm font-medium text-slate-300">You've been invited! Would you like to join?</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button 
+                        onClick={() => handleInvitationResponse(camp.id, 'rejected')}
+                        className="px-4 py-2 text-xs font-bold text-slate-400 hover:text-white transition-colors"
+                      >
+                        Decline
+                      </button>
+                      <button 
+                        onClick={() => handleInvitationResponse(camp.id, 'approved')}
+                        className="px-6 py-2 bg-campayn-primary text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-campayn-primary/20 hover:scale-105 transition-transform"
+                      >
+                        Accept & Connect
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             ))
           )}
